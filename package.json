@@ -1,24 +1,28 @@
 {
-  "name": "inliner",
-  "version": "0.1.14",
+  "name": "inliner2",
+  "version": "0.2.0",
   "description": "Utility to inline images, CSS and JavaScript for a web page - useful for mobile sites",
-  "homepage": "http://github.com/remy/inliner",
+  "homepage": "http://github.com/rolandpoulter/inliner",
   "main": "inliner",
   "keywords": ["mobile", "inline", "production", "build", "minify"],
-  "author": {
-    "name": "Remy Sharp",
-    "web": "http://github.com/remy"
-  },
+  "contributors": [
+    {
+      "name": "Remy Sharp",
+      "web": "http://github.com/remy"
+    },
+    {
+      "name": "Roland Poulter",
+      "web": "http://github.com/rolandpoulter"
+    }
+  ],
   "dependencies": {
-    "jsdom": "latest",
-    "uglify-js": "1.2.2",
-    "commander": "0.5.1"
+    "async": "0.1.22",
+    "jsdom": "0.3.3",
+    "request": "2.12.0",
+    "uglify-js": "2.2.2"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/remy/inliner.git"
-  },
-  "bin": {
-    "inliner": "bin/inliner"
+    "url": "git://github.com/rolandpoulter/inliner.git"
   }
 }

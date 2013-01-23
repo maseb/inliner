@@ -1,4 +1,6 @@
-# Inliner
+# Inliner2
+
+Based on [Inliner](http://github.com/remy/inliner) by [Remy Sharp](http://github.com/remy)
 
 Turns your web page to a single HTML file with everything inlined - perfect for appcache manifests on mobile devices that you want to reduce those http requests.
 
@@ -12,47 +14,26 @@ Turns your web page to a single HTML file with everything inlined - perfect for 
 
 ## Installation
 
-Check out a working copy of the source code with [Git](http://git-scm.com), or install `inliner` via [npm](http://npmjs.org) (the recommended way). The latter will also install `inliner` into the system's `bin` path.
+Check out a working copy of the source code with [Git](http://git-scm.com), or install `inliner2` via [npm](http://npmjs.org) (the recommended way).
 
-    $ npm install inliner -g
+    $ npm install inliner2 -g
     
 Or
     
-    $ git clone https://github.com/remy/inliner.git
+    $ git clone https://github.com/rolandpoulter/inliner.git
     
-`inliner` uses a `package.json` to describe the dependancies, and if you install via a github clone, ensure you run `npm install` from the `inliner` directory to install the dependancies (or manually install [jsdom](https://github.com/tmpvar/jsdom "tmpvar/jsdom - GitHub") and [uglify-js](https://github.com/mishoo/UglifyJS "mishoo/UglifyJS - GitHub")).
+`inliner2` uses a `package.json` to describe the dependancies, and if you install via a github clone, ensure you run `npm install` from the `inliner2` directory to install the dependancies.
 
 ## Usage
 
-If you have either installed via npm or put the inliner bin directory in your path, then you can use inliner via the command line as per:
-
-    inliner http://remysharp.com
-
-This will output the inlined markup with default options. You can see more options on how to disable compression or how not to base64 encode images using the help:
-
-    inliner --help
-
 To use inline inside your own script:
 
-    var Inliner = require('inliner');
+    var Inliner = require('inliner2');
 
-    new Inliner('http://remysharp.com', function (html) {
+    new Inliner('http://remysharp.com', function (error, html) {
       // compressed and inlined HTML page
       console.log(html);
     });
-    
-Or:
-    
-    var inliner = new Inliner('http://remysharp.com');
-    
-    inliner.on('progress', function (event) {
-      console.error(event);
-    }).on('end', function (html) {
-      // compressed and inlined HTML page
-      console.log(html);      
-    });
-
-Note that if you include the inliner script via a git submodule, it requires jsdom & uglifyjs to be installed via `npm install jsdom uglify-js`, otherwise you should be good to run.
 
 Once you've inlined the crap out of the page, add the `manifest="self.appcache"` to the `html` tag and create an empty file called self.appcache ([read more](http://remysharp.com/2011/01/31/simple-offline-application/)).
 
