@@ -21,8 +21,9 @@ Inliner.version = require('./package.json').version;
 
 // TODO: turning any of these options on could easily cause thing to break, they should not be users.
 Inliner.defaults = {
+  uglify: true
   //collapseWhitespace: !true,
-  //compressCSS: !true,
+  //compressCSS: !true
   //images: !true
 };
 
@@ -76,7 +77,7 @@ def.inline = function (url, callback) {
   var inliner = this;
 
   this.get(url, function (error, html) {
-    debugger;
+    //debugger;
 
     if (error) return callback && callback(error);
 
@@ -316,7 +317,7 @@ def.inlineScripts = function (url, scripts, callback) {
 
       // don't compress already minified code
       if(
-        false &&
+        inliner.options.uglify &&
         !(/\bmin\b/).test(src) &&
         !(/google-analytics/).test(src)
       ) {

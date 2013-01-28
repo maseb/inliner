@@ -1,6 +1,6 @@
 {
   "name": "inliner2",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utility to inline images, CSS and JavaScript for a web page - useful for mobile sites",
   "homepage": "http://github.com/rolandpoulter/inliner",
   "main": "inliner",
