@@ -446,7 +446,7 @@ def.get = function (url, options, callback) {
 
 
 def.getImagesFromCSS = function (rooturl, rawCSS, callback) {
-  if (this.options.images === false) {
+  if (!this.options.images) {
     if (callback) callback(null, rawCSS);
 
     return this;
