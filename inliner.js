@@ -22,6 +22,7 @@ Inliner.version = require('./package.json').version;
 
 
 Inliner.defaults = {
+  debug: false,
   uglify: true,
   compressCSS: true,
   collapseWhitespace: true
@@ -331,7 +332,7 @@ def.inlineScripts = function (url, scripts, callback) {
           var ast = UglifyJS.parse(orig_code); // parse code and get the initial AST
 
           var compressor = new UglifyJS.Compressor({
-            warnings: true
+            warnings: inliner.options.debug
           });
 
           // get an AST with compression optimizations
@@ -541,7 +542,7 @@ def.getImportCSS = function (rooturl, css, callback) {
       css = cleanCSS.process(css, {
         keepSpecialComments: 0,
         removeEmpty: true,
-        debug: true
+        debug: inliner.options.debug
       });;
     }
 
