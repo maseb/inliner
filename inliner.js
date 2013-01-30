@@ -83,7 +83,7 @@ def.inline = function (url, callback) {
 
     if (!html) return callback && callback(null, '');
 
-    jsdom.env(html, '', ['http://code.jquery.com/jquery.min.js'], function (errors, window) {
+    jsdom.env(html, '', [__dirname + '/jquery.min.js'], function (errors, window) {
       if (error && errors.length) {
         return callback && callback(errors);
       }
