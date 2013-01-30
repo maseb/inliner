@@ -1,6 +1,6 @@
 {
   "name": "inliner2",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Utility to inline images, CSS and JavaScript for a web page - useful for mobile sites",
   "homepage": "http://github.com/rolandpoulter/inliner",
   "main": "inliner",
@@ -19,7 +19,8 @@
     "async": "0.1.22",
     "jsdom": "0.3.3",
     "request": "2.12.0",
-    "uglify-js": "2.2.2"
+    "uglify-js": "2.2.2",
+    "clean-css": "0.9.1"
   },
   "repository": {
     "type": "git",

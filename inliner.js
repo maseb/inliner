@@ -11,6 +11,7 @@ var fs = require('fs'),
 var async = require('async'),
     jsdom = require('jsdom'),
     request = require('request'),
+    cleanCSS = require('clean-css'),
     UglifyJS = require('uglify-js');
 
 
@@ -19,11 +20,12 @@ module.exports = Inliner;
 
 Inliner.version = require('./package.json').version;
 
-// TODO: turning any of these options on could easily cause thing to break, they should not be users.
+
 Inliner.defaults = {
-  uglify: true
-  //collapseWhitespace: !true,
-  //compressCSS: !true
+  uglify: true,
+  compressCSS: true,
+  collapseWhitespace: true
+  // TODO: fix image inlining
   //images: !true
 };
 
@@ -134,25 +136,28 @@ def.inline = function (url, callback) {
           // manually remove the comments
           removeComments(window.document.documentElement);
     
-          // TODO: fix this
+          var $ = window.$;
+    
           // collapse the white space
           if (inliner.options.collapseWhitespace) {
-            // TODO: put white space helper back in
-            window.$('pre').html(function (i, html) {
-              return html.replace(/\n/g, '~~nl~~'); //.replace(/\s/g, '~~s~~');
+            $('*').each(function () {
+              var parent = this;
+
+              if (this.tagName !== 'PRE' && this.tagName !== 'TEXTAREA') {
+                this.childNodes.forEach(function (child) {
+                  if (child.nodeType === 3) {
+                    if (!(/\S/).test(child.nodeValue)) {
+                      parent.removeChild(child);
+                    } else {
+                      child.nodeValue = $.trim(child.nodeValue);
+                    }
+                  }
+                });
+              }
             });
-    
-            window.$('textarea').val(function (i, v) {
-              return v.replace(/\n/g, '~~nl~~').replace(/\s/g, '~~s~~');
-            });
-    
-            html = window.document.innerHTML;
-            html = html.replace(/\s+/g, ' ').replace(/~~nl~~/g, '\n').replace(/~~s~~/g, ' ');
-    
-          } else {
-            html = window.document.innerHTML;
           }
     
+          html = window.document.innerHTML;
           html = '<!DOCTYPE html>' + html;
     
           if (callback) callback(null, html);
@@ -323,8 +328,11 @@ def.inlineScripts = function (url, scripts, callback) {
       ) {
 
         try {
-          var ast = UglifyJS.parse(orig_code), // parse code and get the initial AST
-              compressor = new UglifyJS.Compressor(); 
+          var ast = UglifyJS.parse(orig_code); // parse code and get the initial AST
+
+          var compressor = new UglifyJS.Compressor({
+            warnings: true
+          });
 
           // get an AST with compression optimizations
           ast.figure_out_scope();
@@ -514,7 +522,9 @@ def.getImportCSS = function (rooturl, css, callback) {
       // if url has a length > 1, then we have media types to target
       var resolvedURL = URL.resolve(rooturl, url[0]);
 
-      inliner.get(resolvedURL, function (importedCSS) {
+      inliner.get(resolvedURL, function (error, importedCSS) {
+        if (error) return callback && callback(error);
+
         if (url.length > 1) {
           url.shift();
           importedCSS = '@media ' + url.join(' ') + '{' + importedCSS + '}';
@@ -527,25 +537,17 @@ def.getImportCSS = function (rooturl, css, callback) {
     }
 
   } else {
-    // TODO: fix this
-    if (inliner.options.compressCSS) css = compressCSS(css);
+    if (inliner.options.compressCSS) {
+      css = cleanCSS.process(css, {
+        keepSpecialComments: 0,
+        removeEmpty: true,
+        debug: true
+      });;
+    }
 
     callback(null, css, rooturl);
   }
 };
-
-
-function compressCSS(css) {
-  return css.
-    replace(/\s+/g, ' ').
-    replace(/:\s+/g, ':').
-    replace(/\/\*.*?\*\//g, '').
-    replace(/\} /g, '}').
-    replace(/ \{/g, '{').
-    //.replace(/\{ /g, '{').
-    replace(/; /g, ';').
-    replace(/\n+/g, '');
-}
 
 
 function removeComments(element) {
