@@ -427,6 +427,7 @@ def.get = function (url, options, callback) {
         }
 
         function handleResponseBody (body) {
+          body = body || '';
           body = body.toString('utf8');
 
           if (response.statusCode !== 200) {
