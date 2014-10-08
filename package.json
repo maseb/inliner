@@ -1,8 +1,8 @@
 {
-  "name": "inliner2",
-  "version": "0.2.5",
-  "description": "Utility to inline images, CSS and JavaScript for a web page - useful for mobile sites",
-  "homepage": "http://github.com/rolandpoulter/inliner",
+  "name": "inliner3",
+  "version": "0.0.1",
+  "description": "Utility to inline images, CSS and JavaScript for a web page - useful for mobile sites. Fork of inliner/inliner2.",
+  "homepage": "http://github.com/nebula/inliner",
   "main": "inliner",
   "keywords": ["mobile", "inline", "production", "build", "minify"],
   "contributors": [
@@ -19,11 +19,11 @@
     "async": "0.1.22",
     "jsdom": "0.3.3",
     "request": "2.12.0",
-    "uglify-js": "2.2.2",
+    "uglify-js": "2.4.15",
     "clean-css": "0.9.1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rolandpoulter/inliner.git"
+    "url": "git://github.com/nebula/inliner.git"
   }
 }
